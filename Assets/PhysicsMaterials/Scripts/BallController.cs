@@ -1,0 +1,97 @@
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BallController : MonoBehaviour
+{  
+    public Material[] material;
+    Renderer rend; 
+    public GameObject particle;
+
+    public GameObject colorParticle;
+
+    [SerializeField]
+    private float speed;
+    bool started;
+    bool gameOver;
+    
+
+    Rigidbody rb;
+
+     void Awake() {
+        rb = GetComponent<Rigidbody>();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
+        int i = Random.Range(0,10);
+        rend.sharedMaterial = material[i];
+        started =false;
+        gameOver=false;
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       if(!started)
+       {
+         if(Input.GetMouseButtonDown(0)){
+             rb.velocity = new Vector3(speed,0,0);
+             started=true;
+
+             GameManager.instance.StartGame();
+         }
+    
+       }
+        Debug.DrawRay(transform.position,Vector3.down,Color.red);
+       if(!Physics.Raycast(transform.position,Vector3.down, 1f)){
+           gameOver =true;
+           rb.velocity = new Vector3(0,-25f,0);
+           Camera.main.GetComponent<CameraFollow>().gameOver = true;
+           GameManager.instance.GameOver();
+       }
+
+       if(Input.GetMouseButtonDown(0) && !gameOver){
+          SwitchDirection();
+       } 
+    }
+
+    void SwitchDirection(){
+
+        if(rb.velocity.z > 0){
+            rb.velocity = new Vector3(speed,0,0);
+        }else if(rb.velocity.x > 0){
+            rb.velocity = new Vector3(0,0,speed);
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.gameObject.tag == "Diamond"){
+
+             GameObject part = Instantiate(particle,col.gameObject.transform.position, Quaternion.identity) as GameObject;
+             AudioManager.instance.Play("Coins");
+             Destroy(col.gameObject);
+             Destroy(part,1f);
+             BannerAdExample bannerAdExample = new BannerAdExample();
+             bannerAdExample._androidAdUnitId = "Banner_Android";
+             bannerAdExample.LoadBanner();
+             bannerAdExample.ShowBannerAd();
+
+           
+        }
+        if(col.gameObject.tag == "colorParticle"){
+
+         GameObject part = Instantiate(colorParticle,col.gameObject.transform.position, Quaternion.identity) as GameObject;
+         int i = Random.Range(0,4);
+         rend.sharedMaterial = material[i];
+         Destroy(col.gameObject);
+         Destroy(part,1f);
+        }
+        
+    }
+}
