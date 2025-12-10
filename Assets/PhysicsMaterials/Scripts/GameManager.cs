@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour
       ScoreManager.instance.StopScore();
       gameOver = true; 
       //calling Interstitial Ads
-     InterstitialAdExample adExample = new InterstitialAdExample();
-     adExample._adUnitId = "Interstitial_Android";
-     adExample.LoadAd();
-     adExample.ShowAd();
+    //  InterstitialAdExample adExample = new InterstitialAdExample();
+    //  adExample._adUnitId = "Interstitial_Android";
+    //  adExample.LoadAd();
+    //  adExample.ShowAd();
     }
 }

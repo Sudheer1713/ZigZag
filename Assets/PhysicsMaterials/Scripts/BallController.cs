@@ -77,10 +77,10 @@ public class BallController : MonoBehaviour
              AudioManager.instance.Play("Coins");
              Destroy(col.gameObject);
              Destroy(part,1f);
-             BannerAdExample bannerAdExample = new BannerAdExample();
-             bannerAdExample._androidAdUnitId = "Banner_Android";
-             bannerAdExample.LoadBanner();
-             bannerAdExample.ShowBannerAd();
+            //  BannerAdExample bannerAdExample = new BannerAdExample();
+            //  bannerAdExample._androidAdUnitId = "Banner_Android";
+            //  bannerAdExample.LoadBanner();
+            //  bannerAdExample.ShowBannerAd();
 
            
         }
